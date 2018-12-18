@@ -1,5 +1,4 @@
 name: azure-iot-edge-ijohnson
-base: core18
 version: '0.1'
 summary: azure-iot-edge does things
 description: things are done

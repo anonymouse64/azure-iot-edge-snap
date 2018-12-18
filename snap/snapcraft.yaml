@@ -8,5 +8,9 @@ grade: stable
 confinement: strict
 
 parts:
-  my-part:
-    plugin: nil
+  moby-engine:
+    plugin: dump
+    source: https://packages.microsoft.com/ubuntu/18.04/prod/pool/main/m/moby-engine/moby-engine_3.0.2_amd64.deb
+  iotedge:
+    plugin: dump
+    source: https://packages.microsoft.com/ubuntu/18.04/prod/pool/main/i/iotedge/iotedge_1.0.5-1_amd64.deb

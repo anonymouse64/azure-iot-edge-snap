@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+# we need copy the config file into $SNAP_COMMON where it can be modified
+# but also need to modify the "homedir" root level spec in the yaml to be
+# "$SNAP_COMMON/var/lib/iotedge"
+# as well as the management + workload uri's to live in a snap specific 
+# portion of /run that is writable from within the snap
+cat "$SNAP/etc/iotedge/config.yaml" | \
+    sed -e "s@homedir: \"/var/lib/iotedge\"@homedir: \"$SNAP_COMMON/var/lib/iotedge\"@" \
+    -e "s@management_uri: \"unix:///var/run/iotedge/mgmt.sock\"@management_uri: \"unix:///run/snap.$SNAP_INSTANCE_NAME/iotedge/mgmt.sock\"@" \
+    -e "s@workload_uri: \"unix:///var/run/iotedge/workload.sock\"@workload_uri: \"unix:///run/snap.$SNAP_INSTANCE_NAME/iotedge/workload.sock\"@" \
+    > $SNAP_COMMON/etc/iotedge/config.yaml

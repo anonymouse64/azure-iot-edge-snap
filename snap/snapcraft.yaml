@@ -14,9 +14,12 @@ passthrough:
 plugs:
   support:
     interface: docker-support
-  privileged:
-    interface: docker-support
-    privileged-containers: true
+  docker-cli:
+    interface: docker
+slots:
+  docker-daemon:
+    interface: docker
+
 
 apps:
   iotedged:
@@ -25,6 +28,7 @@ apps:
     plugs:
       - network
       - network-bind
+      - docker-cli
   dockerd:
     command: dockerd-wrapper
     daemon: simple
@@ -35,7 +39,8 @@ apps:
       - support
       - privileged
       - home
-
+    slots:
+      - docker-daemon
 parts:
   iotedge:
     plugin: dump

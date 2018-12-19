@@ -13,10 +13,6 @@ layout:
 plugs:
   support:
     interface: docker-support
-slots:
-  docker-daemon:
-    interface: docker
-
 
 apps:
   iotedged:
@@ -33,9 +29,6 @@ apps:
       - firewall-control
       - support
       - home
-    slots:
-      - docker-daemon
-
 
 parts:
   moby-engine:

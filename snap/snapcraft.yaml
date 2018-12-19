@@ -22,6 +22,11 @@ slots:
 
 
 apps:
+  iotedge:
+    command: usr/bin/iotedge
+    plugs:
+      - network
+      - network-bind
   iotedged:
     command: usr/bin/iotedged -c $SNAP_COMMON/etc/iotedge/config.yaml
     daemon: simple

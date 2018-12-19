@@ -24,6 +24,8 @@ slots:
 apps:
   iotedge:
     command: usr/bin/iotedge
+    environment:
+      IOTEDGE_HOST: unix:///run/snap.$SNAP_INSTANCE_NAME/iotedge/mgmt.sock
     plugs:
       - network
       - network-bind

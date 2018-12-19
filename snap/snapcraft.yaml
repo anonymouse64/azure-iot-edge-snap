@@ -6,6 +6,10 @@ description: things are done
 grade: stable
 confinement: strict
 
+layout:
+  /etc/docker:
+    bind: $SNAP_DATA/etc/docker
+
 plugs:
   support:
     interface: docker-support

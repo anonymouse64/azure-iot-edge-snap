@@ -33,11 +33,9 @@ apps:
     command: dockerd-wrapper
     daemon: simple
     plugs:
-      - network
       - network-bind
       - firewall-control
       - support
-      - privileged
       - home
     slots:
       - docker-daemon

@@ -2,4 +2,9 @@ azure-artifacts/
 
 *.deb
 
+# snap specific files
 *.snap
+parts/
+prime/
+snap/.snapcraft/
+stage/

@@ -42,6 +42,9 @@ apps:
     plugs:
       - network-bind
       - firewall-control
+      # azure iot-edge container specifically need to disable ipv6, which 
+      # needs network-control
+      - network-control
       - support
       - home
     slots:

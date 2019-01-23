@@ -32,6 +32,8 @@ apps:
   iotedged:
     command: usr/bin/iotedged -c $SNAP_COMMON/etc/iotedge/config.yaml
     daemon: simple
+    passthrough:
+      after: [dockerd]
     plugs:
       - network
       - network-bind

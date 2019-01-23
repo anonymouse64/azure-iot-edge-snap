@@ -25,7 +25,7 @@ apps:
   iotedge:
     command: usr/bin/iotedge
     environment:
-      IOTEDGE_HOST: unix:///run/snap.$SNAP_INSTANCE_NAME/iotedge/mgmt.sock
+      IOTEDGE_HOST: unix://$SNAP_DATA/run/mgmt.sock
     plugs:
       - network
       - network-bind
@@ -38,6 +38,13 @@ apps:
       - network
       - network-bind
       - docker-cli
+    sockets:
+      workload:
+        listen-stream: $SNAP_DATA/run/workload.sock
+        socket-mode: 0666
+      mgmt:
+        listen-stream: $SNAP_DATA/run/mgmt.sock
+        socket-mode: 0666
   dockerd:
     command: dockerd-wrapper
     daemon: simple

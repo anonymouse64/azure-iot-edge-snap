@@ -64,7 +64,7 @@ parts:
     source: https://packages.microsoft.com/ubuntu/18.04/prod/pool/main/i/iotedge/iotedge_1.0.5-1_amd64.deb
   wrapper-scripts:
     plugin: dump
-    source: .
+    source: local-assets
     stage-packages:
       - mount
     stage:

@@ -116,6 +116,7 @@ parts:
       install -T "$GOPATH/src/github.com/docker/docker-ce/components/cli/contrib/completion/bash/docker" "$SNAPCRAFT_PART_INSTALL/bin/docker-completion.sh"
     after:
       - go
+      - wrapper-scripts
     build-packages:
       - btrfs-tools
       - gcc

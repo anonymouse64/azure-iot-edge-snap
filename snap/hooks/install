@@ -6,6 +6,9 @@ if [ ! -f "$SNAP_DATA/config/daemon.json" ]; then
     cp "$SNAP/config/daemon.json" "$SNAP_DATA/config/daemon.json"
 fi
 
+# get the hostname to set that in the config file as well
+HOSTNAME=$(hostname)
+
 # we need copy the config file into $SNAP_COMMON where it can be modified
 # but also need to modify the "homedir" root level spec in the yaml to be
 # "$SNAP_COMMON/var/lib/iotedge"
@@ -20,6 +23,7 @@ cat "$SNAP/etc/iotedge/config.yaml" | \
     -e "s@workload_uri: \"unix:///var/run/iotedge/workload.sock\"@workload_uri: \"unix://$SNAP_DATA/run/workload.sock\"@" \
     -e "s@management_uri: \"fd://iotedge.mgmt.socket\"@management_uri: \"unix://$SNAP_DATA/run/mgmt.sock\"@" \
     -e "s@workload_uri: \"fd://iotedge.socket\"@workload_uri: \"unix://$SNAP_DATA/run/workload.sock\"@" \
+    -e "s@hostname: \"<ADD HOSTNAME HERE>\"@hostname: \"$HOSTNAME\"@" \
     > "$SNAP_COMMON/etc/iotedge/config.yaml"
 
 # also disable the service before installing so that it doesn't cause the 

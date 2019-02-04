@@ -1,0 +1,17 @@
+#!/bin/bash -e
+
+# check if the cs-file exists
+CS_FILE=$(snapctl get cs-file)
+
+if [ -f $CS_FILE ]; then
+    # read the cs from the file and then put it into the config file
+    CS=$(cat $CS_FILE)
+    sed -i -e \
+        "s@device_connection_string:.*@device_connection_string: \"$CS\"@" \
+        "$SNAP_COMMON/etc/iotedge/config.yaml" 
+fi
+
+# restart the iotedged service now that the connection string has been 
+# specified
+snapctl stop $SNAP_NAME.iotedged
+snapctl start --enable $SNAP_NAME.iotedged

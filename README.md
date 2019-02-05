@@ -15,28 +15,35 @@ snapcraft
 
 # Installing the snap
 
-To install the snap use devmode for now:
+To install the snap use `--dangerous` for now:
 
 ```bash
-sudo snap install --devmode azure-iot-edge-ijohnson*.snap
+sudo snap install --dangerous azure-iot-edge-ijohnson*.snap
 ```
 
-After installation there will be 2 services in the snap, 1 for `dockerd` and one for `iotedged`. The `dockerd` daemon should be running fine, but the `iotedged` daemon will fail because it doesn't have proper credentials inside the config file for `iotedged`. The `iotedged` service is supposed to be disabled from the install hook so that it doesn't attempt to run at all, but there is currently a bug with snapd where services that declare they have a unix socket they listen on are always started after the install hook. See this [forum post](https://forum.snapcraft.io/t/how-to-manage-services-with-sockets-timers/7904) for more info.
+After installation there will be 2 services in the snap, `dockerd` and `iotedged`. The `dockerd` daemon should can start fine, but currently won't have auto-connections for the various interfaces it needs to run, and as such is disabled by the install hook. So after installation, the interfaces need to be connected, then the daemon can be started. Additionally, the `iotedged` daemon should be disabled by the install hook because it doesn't have proper credentials inside the config file for `iotedged`. However, there is currently a bug with snapd where services that declare they have a unix socket they listen on are always started after the install hook. See this [forum post](https://forum.snapcraft.io/t/how-to-manage-services-with-sockets-timers/7904) for more info. The install still seems to succeed even though the `iotedged` service fails immediately. 
 
 After the snap has been installed connect the following interfaces:
 
 ```bash
 sudo snap connect azure-iot-edge-ijohnson:docker-cli azure-iot-edge-ijohnson:docker-daemon
 sudo snap connect azure-iot-edge-ijohnson:support
+sudo snap connect azure-iot-edge-ijohnson:firewall-control
 ```
 
-(note that there are other interfaces that the snap plugs, but there's issues with plugging those, namely that the device cgroup gets turned on and that breaks creating containers for some currently unknown reason, so for now just plug these)
+Now start the `dockerd` service with:
 
-After the interfaces have been connected you will need to provide your connection string obtained from Azure when you setup the hub. The connection string (unquoted) should be put into a file and provide the file to the snap with `snap set` as shown below:
+```bash
+sudo snap start --enable azure-iot-edge-ijohnson.dockerd
+```
+
+Now that `dockerd` is running successfully, you will need to provide your connection string obtained from Azure when you setup the hub so that `iotedged` can make a connection to Azure. The connection string (unquoted) should be put into a file and provide the file to the snap with `snap set` as shown below:
 
 ```bash
 sudo snap set azure-iot-edge-ijohnson cs-file=/path/to/the/file
 ```
+
+Note that you may need to copy the file into a folder such as `/var/snap/azure-iot-edge-ijohnson/current` for the snap set command to work, as the snap won't have permissions to read from your home folder from the `configure` hook, as the `configure` hook runs as root and as such would only have permission for root's `$HOME`.
 
 This will add your connection string to the config file and automatically start the service running. After that you should be able to see the modules you added to the device running successfully with the `iotedge` command in the snap:
 

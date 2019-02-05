@@ -29,3 +29,11 @@ cat "$SNAP/etc/iotedge/config.yaml" | \
 # also disable the service before installing so that it doesn't cause the 
 # installation to be aborted
 snapctl stop --disable "$SNAP_NAME.iotedged"
+
+# disable the dockerd service because for now we don't have auto-connections
+# for the necessary interfaces, and so dockerd will fail on initial install
+# and the user will need to connect the interfaces and then startup dockerd
+# manually
+# when the snap is published in the global store and has auto-connections, 
+# this can be removed
+snapctl stop --disable "$SNAP_NAME.iotedged"

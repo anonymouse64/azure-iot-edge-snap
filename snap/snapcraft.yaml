@@ -12,8 +12,6 @@ passthrough:
       bind: $SNAP_DATA/etc/docker
 
 plugs:
-  support:
-    interface: docker-support
   docker-cli:
     interface: docker
 slots:
@@ -51,13 +49,11 @@ apps:
     plugs:
       - network-bind
       - firewall-control
-      # azure iot-edge container specifically need to disable ipv6, which 
-      # needs network-control
-      - network-control
-      - support
+      - docker-support
       - home
     slots:
       - docker-daemon
+
 parts:
   iotedge:
     plugin: dump

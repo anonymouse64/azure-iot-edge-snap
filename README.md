@@ -27,7 +27,7 @@ After the snap has been installed connect the following interfaces:
 
 ```bash
 sudo snap connect azure-iot-edge-ijohnson:docker-cli azure-iot-edge-ijohnson:docker-daemon
-sudo snap connect azure-iot-edge-ijohnson:support
+sudo snap connect azure-iot-edge-ijohnson:docker-support
 sudo snap connect azure-iot-edge-ijohnson:firewall-control
 ```
 

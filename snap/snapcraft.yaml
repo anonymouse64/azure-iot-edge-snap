@@ -50,6 +50,19 @@ apps:
       mgmt:
         listen-stream: $SNAP_DATA/run/mgmt.sock
         socket-mode: 0666
+  docker:
+    command: docker
+    environment:
+      GIT_TEMPLATE_DIR: $SNAP/share/git-core/templates
+      GIT_CONFIG_NOSYSTEM: "true"
+      GIT_EXEC_PATH: $SNAP/libexec/git-core
+      GIT_TEXTDOMAINDIR: $SNAP/usr/share/locale
+      DOCKER_HOST: unix://$SNAP_DATA/run/docker.sock
+    completer: bin/docker-completion.sh
+    plugs:
+      - docker-cli
+      - network
+      - home
   dockerd:
     command: dockerd-wrapper
     daemon: simple

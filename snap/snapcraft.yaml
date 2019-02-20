@@ -19,6 +19,8 @@ passthrough:
 plugs:
   docker-cli:
     interface: docker
+  home:
+    read: all
 slots:
   docker-daemon:
     interface: docker

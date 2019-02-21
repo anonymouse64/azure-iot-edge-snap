@@ -1,5 +1,5 @@
 diff --git a/components/engine/profiles/apparmor/apparmor.go b/components/engine/profiles/apparmor/apparmor.go
-index b021668c8e..3b0a069805 100644
+index b021668c8e..9c6136684e 100644
 --- a/components/engine/profiles/apparmor/apparmor.go
 +++ b/components/engine/profiles/apparmor/apparmor.go
 @@ -7,7 +7,9 @@ import (
@@ -36,7 +36,7 @@ index b021668c8e..3b0a069805 100644
 +		}
 +		// the snapd security label, which is the peer group we want, doesn't
 +		// include the suffix ".service"
-+		p.SnapSecurityLabel = strings.TrimSuffix(string(out), ".service")
++		p.SnapSecurityLabel = strings.TrimSuffix(strings.TrimSpace(string(out)), ".service")
 +	}
 +
  	return compiled.Execute(out, p)

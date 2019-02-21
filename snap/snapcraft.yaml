@@ -33,7 +33,7 @@ apps:
   iotedge:
     command: usr/bin/iotedge
     environment:
-      IOTEDGE_HOST: unix://$SNAP_DATA/run/mgmt.sock
+      IOTEDGE_HOST: unix://$SNAP_COMMON/run/mgmt.sock
     plugs:
       - network
       - network-bind

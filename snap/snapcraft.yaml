@@ -5,8 +5,11 @@ description: things are done
 
 architectures:
   - build-on: armhf
-  - build-on: arm64
+    run-on: armhf
+  # - build-on: arm64
+  #   run-on: arm64
   - build-on: amd64
+    run-on: amd64
 
 grade: stable
 confinement: strict

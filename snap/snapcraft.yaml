@@ -73,6 +73,9 @@ apps:
       - home
     slots:
       - docker-daemon
+    sockets:
+      docker-socket:
+        listen-stream: $SNAP_DATA/run/docker.sock
 
 parts:
   iotedge:

@@ -24,6 +24,7 @@ cat "$SNAP/etc/iotedge/config.yaml" | \
     -e "s@management_uri: \"fd://iotedge.mgmt.socket\"@management_uri: \"unix://$SNAP_DATA/run/mgmt.sock\"@" \
     -e "s@workload_uri: \"fd://iotedge.socket\"@workload_uri: \"unix://$SNAP_DATA/run/workload.sock\"@" \
     -e "s@hostname: \"<ADD HOSTNAME HERE>\"@hostname: \"$HOSTNAME\"@" \
+    -e "s@uri: \"unix:///var/run/docker.sock\"@uri: \"unix://$SNAP_DATA/run/docker.sock\"@" \
     > "$SNAP_COMMON/etc/iotedge/config.yaml"
 
 # also disable the service before installing so that it doesn't cause the 

@@ -48,10 +48,10 @@ apps:
       - docker-cli
     sockets:
       workload:
-        listen-stream: $SNAP_DATA/run/workload.sock
+        listen-stream: $SNAP_COMMON/run/workload.sock
         socket-mode: 0666
       mgmt:
-        listen-stream: $SNAP_DATA/run/mgmt.sock
+        listen-stream: $SNAP_COMMON/run/mgmt.sock
         socket-mode: 0666
   docker:
     command: docker
@@ -60,7 +60,7 @@ apps:
       GIT_CONFIG_NOSYSTEM: "true"
       GIT_EXEC_PATH: $SNAP/libexec/git-core
       GIT_TEXTDOMAINDIR: $SNAP/usr/share/locale
-      DOCKER_HOST: unix://$SNAP_DATA/run/docker.sock
+      DOCKER_HOST: unix://$SNAP_COMMON/run/docker.sock
     completer: bin/docker-completion.sh
     plugs:
       - docker-cli
@@ -78,7 +78,7 @@ apps:
       - docker-daemon
     sockets:
       docker-socket:
-        listen-stream: $SNAP_DATA/run/docker.sock
+        listen-stream: $SNAP_COMMON/run/docker.sock
 
 parts:
   iotedge:

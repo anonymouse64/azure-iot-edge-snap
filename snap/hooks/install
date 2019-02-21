@@ -19,12 +19,12 @@ mkdir -p "$SNAP_COMMON/var/lib/iotedge"
 mkdir -p "/run/snap.$SNAP_INSTANCE_NAME/iotedge"
 cat "$SNAP/etc/iotedge/config.yaml" | \
     sed -e "s@homedir: \"/var/lib/iotedge\"@homedir: \"$SNAP_COMMON/var/lib/iotedge\"@" \
-    -e "s@management_uri: \"unix:///var/run/iotedge/mgmt.sock\"@management_uri: \"unix://$SNAP_DATA/run/mgmt.sock\"@" \
-    -e "s@workload_uri: \"unix:///var/run/iotedge/workload.sock\"@workload_uri: \"unix://$SNAP_DATA/run/workload.sock\"@" \
-    -e "s@management_uri: \"fd://iotedge.mgmt.socket\"@management_uri: \"unix://$SNAP_DATA/run/mgmt.sock\"@" \
-    -e "s@workload_uri: \"fd://iotedge.socket\"@workload_uri: \"unix://$SNAP_DATA/run/workload.sock\"@" \
+    -e "s@management_uri: \"unix:///var/run/iotedge/mgmt.sock\"@management_uri: \"unix://$SNAP_COMMON/run/mgmt.sock\"@" \
+    -e "s@workload_uri: \"unix:///var/run/iotedge/workload.sock\"@workload_uri: \"unix://$SNAP_COMMON/run/workload.sock\"@" \
+    -e "s@management_uri: \"fd://iotedge.mgmt.socket\"@management_uri: \"unix://$SNAP_COMMON/run/mgmt.sock\"@" \
+    -e "s@workload_uri: \"fd://iotedge.socket\"@workload_uri: \"unix://$SNAP_COMMON/run/workload.sock\"@" \
     -e "s@hostname: \"<ADD HOSTNAME HERE>\"@hostname: \"$HOSTNAME\"@" \
-    -e "s@uri: \"unix:///var/run/docker.sock\"@uri: \"unix://$SNAP_DATA/run/docker.sock\"@" \
+    -e "s@uri: \"unix:///var/run/docker.sock\"@uri: \"unix://$SNAP_COMMON/run/docker.sock\"@" \
     > "$SNAP_COMMON/etc/iotedge/config.yaml"
 
 # also disable the service before installing so that it doesn't cause the 

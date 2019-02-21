@@ -56,7 +56,7 @@ workaround_apparmor_profile_reload
 
 exec dockerd \
 	-G $default_socket_group \
-	-H unix://$SNAP_DATA/run/docker.sock \
+	-H unix://$SNAP_COMMON/run/docker.sock \
 	--exec-root="$SNAP_DATA/run/docker" \
 	--data-root="$SNAP_COMMON/var-lib-docker" \
 	--pidfile="$SNAP_DATA/run/docker.pid" \

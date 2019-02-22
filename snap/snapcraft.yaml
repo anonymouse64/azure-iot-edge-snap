@@ -1,7 +1,12 @@
 name: azure-iot-edge-ijohnson
-version: '0.1'
-summary: azure-iot-edge does things
-description: things are done
+version: '1.0.6.1'
+summary: Extend cloud intelligence and analytics to edge devices 
+description: 
+  Azure IoT Edge is a fully managed service that delivers cloud intelligence 
+  locally by deploying and running artificial intelligence (AI), Azure 
+  services, and custom logic directly on cross-platform IoT devices. Run your 
+  IoT solution securely and at scale—whether in the cloud or offline.
+
 
 architectures:
   - build-on: armhf

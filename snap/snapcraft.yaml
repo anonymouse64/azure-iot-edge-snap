@@ -1,4 +1,4 @@
-name: azure-iot-edge-ijohnson
+name: iotdevice-azure-iot-edge
 version: '1.0.6.1'
 summary: Extend cloud intelligence and analytics to edge devices 
 description: 

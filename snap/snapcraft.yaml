@@ -115,9 +115,38 @@ parts:
       - -patches/*
       - bin/*
       - config/daemon.json
-  go:
-    source-tag: go1.10.4
-    source-depth: 1
+  dl-go:
+    source: 
+      # note there's some discrepency in the name of the powerpc 64-bit arch...
+      # ubuntu calls it ppc64le, but go calls it ppc64el
+      - on amd64:   ./amd64
+      # - on arm64:   ./arm64
+      - on armhf:   ./armhf
+    plugin: nil
+    build-packages: [curl, coreutils]
+    override-build: |
+      # check to see if the link and sha256 files exist
+      # currently if the host architecture isn't supported in the above source: grammar expression
+      # then the source is just set to "source: .", so we can check if that's the case by looking
+      # for link + sha256 files
+      if [ ! -f link ] || [ ! -f sha256 ]; then
+        # we're building on an unknown architecture
+        # TODO: try to build go natively here in case the go toolchain gets ported to another
+        # architecture before this repo gets updated
+        echo "Unsupported architecture: $(uname -m)"
+        exit 1
+      fi
+      # download the archive, failing on ssl cert problems
+      curl $(cat link) -O
+      sha256sum -c sha256 | grep OK
+
+      case $? in
+      0)
+        tar -C $SNAPCRAFT_STAGE -xf go*.tar.gz --strip-components=1;;
+      *)
+        echo "invalid sha256, failing..."
+        exit 1;;
+      esac
     after: 
       - wrapper-scripts
   docker:
@@ -153,7 +182,7 @@ parts:
       install -T "$GOPATH/src/github.com/docker/docker-ce/components/engine/bundles/latest/dynbinary-daemon/dockerd" "$SNAPCRAFT_PART_INSTALL/bin/dockerd"
       install -T "$GOPATH/src/github.com/docker/docker-ce/components/cli/contrib/completion/bash/docker" "$SNAPCRAFT_PART_INSTALL/bin/docker-completion.sh"
     after:
-      - go
+      - dl-go
       - wrapper-scripts
     build-packages:
       - btrfs-tools
@@ -204,7 +233,7 @@ parts:
       install -T bin/containerd-shim "$SNAPCRAFT_PART_INSTALL/bin/docker-containerd-shim"
       install -T bin/ctr "$SNAPCRAFT_PART_INSTALL/bin/docker-containerd-ctr"
     after:
-      - go
+      - dl-go
     build-packages:
       - make
 
@@ -223,7 +252,7 @@ parts:
       install -d "$SNAPCRAFT_PART_INSTALL/bin"
       install -T runc "$SNAPCRAFT_PART_INSTALL/bin/docker-runc"
     after:
-      - go
+      - dl-go
     build-packages:
       - libapparmor-dev
       - libseccomp-dev
@@ -245,7 +274,7 @@ parts:
       install -T bin/docker-proxy "$SNAPCRAFT_PART_INSTALL/bin/docker-proxy"
       install -T bin/dnet "$SNAPCRAFT_PART_INSTALL/bin/dnet"
     after:
-      - go
+      - dl-go
     build-packages:
       - iptables
       - make

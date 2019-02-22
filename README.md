@@ -2,6 +2,8 @@
 
 This repo contains code to build Azure IoT Edge as a snap to run on Ubuntu Core or any system that supports snaps.
 
+**Note**: This snap is currently a work-in-progress and should be considered a prototype, and as such may break at any point in time.
+
 The snap includes a version of docker, using slightly modified sources from the docker snap. Notably, it doesn't use the moby engine that is included with the normal distribution of Azure IoT Edge. This is so that the docker engine works better with snapd confinement
 
 # Building the snap
@@ -29,6 +31,7 @@ After the snap has been installed connect the following interfaces:
 sudo snap connect azure-iot-edge-ijohnson:docker-cli azure-iot-edge-ijohnson:docker-daemon
 sudo snap connect azure-iot-edge-ijohnson:docker-support
 sudo snap connect azure-iot-edge-ijohnson:firewall-control
+sudo snap connect azure-iot-edge-ijohnson:home
 ```
 
 Now start the `dockerd` service with:
@@ -43,7 +46,9 @@ Now that `dockerd` is running successfully, you will need to provide your connec
 sudo snap set azure-iot-edge-ijohnson cs-file=/path/to/the/file
 ```
 
-Note that you may need to copy the file into a folder such as `/var/snap/azure-iot-edge-ijohnson/current` for the snap set command to work, as the snap won't have permissions to read from your home folder from the `configure` hook, as the `configure` hook runs as root and as such would only have permission for root's `$HOME`.
+Note that the `home` interface is declared with `read: all` attribute, which means that when connected, root users in the snap can read from any user's home folder. This means that after connecting the home interface above, you can specify the `cs-file` as being anywhere in your `$HOME` directory.
+
+**Note**: there is currently a bug where sometimes iotedged hangs forever at "Initializing modules" in the log. If you run into this issue, just restart iotedged with `snap restart azure-iot-edge-ijohnson.iotedged` and it should begin working again.
 
 This will add your connection string to the config file and automatically start the service running. After that you should be able to see the modules you added to the device running successfully with the `iotedge` command in the snap:
 

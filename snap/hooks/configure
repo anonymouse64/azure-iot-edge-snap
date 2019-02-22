@@ -8,7 +8,6 @@ if [ -f $CS_FILE ]; then
     CS=$(cat $CS_FILE)
     sed -i -e \
         "s@device_connection_string:.*@device_connection_string: \"$CS\"@" \
-
         "$SNAP_COMMON/etc/iotedge/config.yaml" 
 
     # restart the iotedged service now that the connection string has been 

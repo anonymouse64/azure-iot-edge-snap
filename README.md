@@ -47,8 +47,6 @@ sudo snap set azure-iot-edge-ijohnson cs-file=/path/to/the/file
 
 Note that the `home` interface is declared with `read: all` attribute, which means that when connected, root users in the snap can read from any user's home folder. This means that after connecting the home interface above, you can specify the `cs-file` as being anywhere in your `$HOME` directory.
 
-**Note**: there is currently a bug where sometimes iotedged hangs forever at "Initializing modules" in the log. If you run into this issue, just restart iotedged with `snap restart azure-iot-edge-ijohnson.iotedged` and it should begin working again.
-
 This will add your connection string to the config file and automatically start the service running. After that you should be able to see the modules you added to the device running successfully with the `iotedge` command in the snap:
 
 ```bash
@@ -58,3 +56,8 @@ edgeHub                     running          Up 11 seconds    mcr.microsoft.com/
 edgeAgent                   running          Up 34 seconds    mcr.microsoft.com/azureiotedge-agent:1.0
 SimulatedTemperatureSensor  running          Up 26 seconds    mcr.microsoft.com/azureiotedge-simulated-temperature-sensor:1.0
 ```
+
+# Known Issues
+There is currently a bug where sometimes iotedged hangs forever at "Initializing modules" in the log. If you run into this issue, just restart iotedged with `snap restart azure-iot-edge-ijohnson.iotedged` and it should begin working again.
+
+Additionally, while the snap is meant to use namespaced sockets, it seems to still somehow leak state with the host system outside of snap confinement, and as such it is recommended to remove all installations of docker, moby and iotedge from the host system before using the snap. A reboot may be necessary after removal to flush all systemd sockets, etc. out of the system.

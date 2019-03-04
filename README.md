@@ -28,7 +28,6 @@ After installation there will be 2 services in the snap, `dockerd` and `iotedged
 After the snap has been installed connect the following interfaces:
 
 ```bash
-sudo snap connect azure-iot-edge-ijohnson:docker-cli azure-iot-edge-ijohnson:docker-daemon
 sudo snap connect azure-iot-edge-ijohnson:docker-support
 sudo snap connect azure-iot-edge-ijohnson:firewall-control
 sudo snap connect azure-iot-edge-ijohnson:home

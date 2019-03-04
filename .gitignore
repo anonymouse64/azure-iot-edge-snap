@@ -4,6 +4,7 @@ azure-artifacts/
 
 # snap specific files
 *.snap
+*.bz2
 parts/
 prime/
 snap/.snapcraft/

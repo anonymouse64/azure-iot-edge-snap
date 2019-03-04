@@ -16,7 +16,7 @@ HOSTNAME=$(hostname)
 # portion of /run that is writable from within the snap
 mkdir -p "$SNAP_COMMON/etc/iotedge"
 mkdir -p "$SNAP_COMMON/var/lib/iotedge"
-mkdir -p "/run/snap.$SNAP_INSTANCE_NAME/iotedge"
+mkdir -p "$SNAP_COMMON/run"
 cat "$SNAP/etc/iotedge/config.yaml" | \
     sed -e "s@homedir: \"/var/lib/iotedge\"@homedir: \"$SNAP_COMMON/var/lib/iotedge\"@" \
     -e "s@management_uri: \"unix:///var/run/iotedge/mgmt.sock\"@management_uri: \"unix://$SNAP_COMMON/run/mgmt.sock\"@" \

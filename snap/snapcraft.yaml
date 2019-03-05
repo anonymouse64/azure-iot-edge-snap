@@ -24,9 +24,9 @@ passthrough:
     /etc/docker:
       bind: $SNAP_DATA/etc/docker
 
-# plugs:
-#   home:
-#     read: all
+plugs:
+  home:
+    read: all
 
 apps:
   iotedge:

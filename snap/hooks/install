@@ -17,6 +17,8 @@ HOSTNAME=$(hostname)
 mkdir -p "$SNAP_COMMON/etc/iotedge"
 mkdir -p "$SNAP_COMMON/var/lib/iotedge"
 mkdir -p "$SNAP_COMMON/run"
+# TODO find a proper yaml library that preserves comments that we
+# can use to configure this file programmatically
 cat "$SNAP/etc/iotedge/config.yaml" | \
     sed -e "s@homedir: \"/var/lib/iotedge\"@homedir: \"$SNAP_COMMON/var/lib/iotedge\"@" \
     -e "s@management_uri: \"unix:///var/run/iotedge/mgmt.sock\"@management_uri: \"unix://$SNAP_COMMON/run/mgmt.sock\"@" \

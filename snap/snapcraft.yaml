@@ -86,8 +86,9 @@ parts:
       - libgcc1
     override-build: |
       snapcraftctl build
-      # also make a libcrypto.so.1.0.2 symlink, as the iotedged binary has this
+      # also make a lib{ssl,crypto}.so.1.0.2 symlink, as the iotedged binary has this
       # in its lib requirements
+      # but the ubuntu archive packages only ship lib{ssl,crypto}.so.1.0.0
       cd $SNAPCRAFT_PART_INSTALL
       # TODO: use the proper "target arch" env var this so could reasonably 
       # still be cross-compiled
@@ -106,6 +107,7 @@ parts:
       mkdir -p lib/$MULTI_ARCH_PATH
       cd lib/$MULTI_ARCH_PATH
       ln -s libcrypto.so.1.0.0 libcrypto.so.1.0.2
+      ln -s libssl.so.1.0.0 libssl.so.1.0.2
 
   libiothsm:
     plugin: dump

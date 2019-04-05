@@ -1,7 +1,7 @@
-diff --git a/components/engine/profiles/apparmor/apparmor.go b/components/engine/profiles/apparmor/apparmor.go
-index b021668c8e..9c6136684e 100644
---- a/components/engine/profiles/apparmor/apparmor.go
-+++ b/components/engine/profiles/apparmor/apparmor.go
+diff --git a/profiles/apparmor/apparmor.go b/profiles/apparmor/apparmor.go
+index 2f58ee852c..9107f82f40 100644
+--- a/profiles/apparmor/apparmor.go
++++ b/profiles/apparmor/apparmor.go
 @@ -7,7 +7,9 @@ import (
  	"io"
  	"io/ioutil"
@@ -12,7 +12,7 @@ index b021668c8e..9c6136684e 100644
  	"strings"
  	"text/template"
  
-@@ -29,6 +31,8 @@ type profileData struct {
+@@ -31,6 +33,8 @@ type profileData struct {
  	InnerImports []string
  	// Version is the {major, minor, patch} version of apparmor_parser as a single number.
  	Version int
@@ -21,7 +21,7 @@ index b021668c8e..9c6136684e 100644
  }
  
  // generateDefault creates an apparmor profile from ProfileData.
-@@ -54,6 +58,20 @@ func (p *profileData) generateDefault(out io.Writer) error {
+@@ -56,6 +60,20 @@ func (p *profileData) generateDefault(out io.Writer) error {
  	}
  	p.Version = ver
  
@@ -42,11 +42,11 @@ index b021668c8e..9c6136684e 100644
  	return compiled.Execute(out, p)
  }
  
-diff --git a/components/engine/profiles/apparmor/template.go b/components/engine/profiles/apparmor/template.go
-index c00a3f70e9..32717b0cdc 100644
---- a/components/engine/profiles/apparmor/template.go
-+++ b/components/engine/profiles/apparmor/template.go
-@@ -40,5 +40,13 @@ profile {{.Name}} flags=(attach_disconnected,mediate_deleted) {
+diff --git a/profiles/apparmor/template.go b/profiles/apparmor/template.go
+index 400b3bd50a..03670bf054 100644
+--- a/profiles/apparmor/template.go
++++ b/profiles/apparmor/template.go
+@@ -46,5 +46,13 @@ profile {{.Name}} flags=(attach_disconnected,mediate_deleted) {
    # suppress ptrace denials when using 'docker ps' or using 'ps' inside a container
    ptrace (trace,read) peer={{.Name}},
  {{end}}

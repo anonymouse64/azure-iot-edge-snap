@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -e
 
 default_socket_group=docker
 
@@ -48,7 +47,8 @@ trap - EXIT
 mkdir -p \
 	"$SNAP_DATA/run" \
 	"$SNAP_DATA/run/docker" \
-	"$SNAP_COMMON/var-lib-docker"
+	"$SNAP_COMMON/var-lib-docker" \
+	"$XDG_RUNTIME_DIR"
 
 workaround_lp1606510
 
@@ -56,7 +56,7 @@ workaround_apparmor_profile_reload
 
 exec dockerd \
 	-G $default_socket_group \
-	-H unix://$SNAP_COMMON/run/docker.sock \
+	-H "unix://$SNAP_COMMON/run/docker.sock" \
 	--exec-root="$SNAP_DATA/run/docker" \
 	--data-root="$SNAP_COMMON/var-lib-docker" \
 	--pidfile="$SNAP_DATA/run/docker.pid" \

@@ -5,7 +5,7 @@ CS_FILE=$(snapctl get cs-file)
 
 # only exit/complain if the cs-file config has a value and if that 
 # value is an invalid file
-if [ ! -z "$CS_FILE" ]; then
+if [ -n "$CS_FILE" ]; then
     if [ -f "$CS_FILE" ]; then
         # read the cs from the file and then put it into the config file
         CS=$(cat "$CS_FILE")
@@ -13,12 +13,12 @@ if [ ! -z "$CS_FILE" ]; then
         # can use to configure this file programmatically
         sed -i -e \
             "s@device_connection_string:.*@device_connection_string: \"$CS\"@" \
-            "$SNAP_COMMON/etc/iotedge/config.yaml" 
+            "$SNAP_DATA/etc/iotedge/config.yaml" 
 
         # restart the iotedged service now that the connection string has been 
         # specified
-        snapctl stop $SNAP_NAME.iotedged
-        snapctl start --enable $SNAP_NAME.iotedged
+        snapctl stop "$SNAP_NAME.iotedged"
+        snapctl start --enable "$SNAP_NAME.iotedged"
     else
         echo "error: file $CS_FILE not found, cannot be used with iotedge"
         exit 1

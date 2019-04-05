@@ -14,20 +14,19 @@ HOSTNAME=$(hostname)
 # "$SNAP_COMMON/var/lib/iotedge"
 # as well as the management + workload uri's to live in a snap specific 
 # portion of /run that is writable from within the snap
-mkdir -p "$SNAP_COMMON/etc/iotedge"
+mkdir -p "$SNAP_DATA/etc/iotedge"
 mkdir -p "$SNAP_COMMON/var/lib/iotedge"
 mkdir -p "$SNAP_COMMON/run"
 # TODO find a proper yaml library that preserves comments that we
 # can use to configure this file programmatically
-cat "$SNAP/etc/iotedge/config.yaml" | \
-    sed -e "s@homedir: \"/var/lib/iotedge\"@homedir: \"$SNAP_COMMON/var/lib/iotedge\"@" \
+sed -e "s@homedir: \"/var/lib/iotedge\"@homedir: \"$SNAP_COMMON/var/lib/iotedge\"@" \
     -e "s@management_uri: \"unix:///var/run/iotedge/mgmt.sock\"@management_uri: \"unix://$SNAP_COMMON/run/mgmt.sock\"@" \
     -e "s@workload_uri: \"unix:///var/run/iotedge/workload.sock\"@workload_uri: \"unix://$SNAP_COMMON/run/workload.sock\"@" \
     -e "s@management_uri: \"fd://iotedge.mgmt.socket\"@management_uri: \"unix://$SNAP_COMMON/run/mgmt.sock\"@" \
     -e "s@workload_uri: \"fd://iotedge.socket\"@workload_uri: \"unix://$SNAP_COMMON/run/workload.sock\"@" \
     -e "s@hostname: \"<ADD HOSTNAME HERE>\"@hostname: \"$HOSTNAME\"@" \
     -e "s@uri: \"unix:///var/run/docker.sock\"@uri: \"unix://$SNAP_COMMON/run/docker.sock\"@" \
-    > "$SNAP_COMMON/etc/iotedge/config.yaml"
+    < "$SNAP/etc/iotedge/config.yaml" > "$SNAP_DATA/etc/iotedge/config.yaml"
 
 # also disable the service before installing so that it doesn't cause the 
 # installation to be aborted

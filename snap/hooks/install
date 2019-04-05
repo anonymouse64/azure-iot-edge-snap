@@ -38,4 +38,4 @@ snapctl stop --disable "$SNAP_NAME.iotedged"
 # manually
 # when the snap is published in the global store and has auto-connections, 
 # this can be removed
-snapctl stop --disable "$SNAP_NAME.iotedged"
+snapctl stop --disable "$SNAP_NAME.dockerd"

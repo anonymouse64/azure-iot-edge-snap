@@ -9,7 +9,7 @@ workaround_apparmor_profile_reload() {
     if [ ! -f "$aa_profile_refreshed" ]; then
         if [ "$(grep -c 'docker-default (enforce)' /sys/kernel/security/apparmor/profiles)" -ge 1 ]; then
             export DOCKER_AA_RELOAD=1
-            touch $aa_profile_reloaded
+            touch "$aa_profile_reloaded"
         fi
     fi
 }
@@ -42,6 +42,10 @@ done
 # so this forces the kernel itself to "modprobe" for these filesystems so that the modules we need are available to Docker
 rm -rf "$dir"
 trap - EXIT
+
+# modify XDG_RUNTIME_DIR to be a snap writable dir underneath $SNAP_COMMON 
+# until LP #1656340 is fixed
+export XDG_RUNTIME_DIR=$SNAP_COMMON/run
 
 # use SNAP_DATA for most "data" bits
 mkdir -p \

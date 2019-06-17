@@ -67,10 +67,30 @@ apps:
     command: bin/dockerd-wrapper.sh
     daemon: simple
     plugs:
-      - network-bind
-      - firewall-control
+      - bluetooth-control
+      - bluez
+      - camera
       - docker-support
+      - dvb
+      - firewall-control
+      - gpio
+      - gpio-memory-control
+      - hardware-random-control
       - home
+      - i2c
+      - iio
+      - joystick
+      - network
+      - network-bind
+      - network-control
+      - opengl
+      - optical-drive
+      - process-control
+      - raw-usb
+      - removable-media
+      - serial-port
+      - spi
+      - system-observe
     sockets:
       docker-socket:
         listen-stream: $SNAP_COMMON/run/docker.sock
